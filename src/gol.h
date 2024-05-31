@@ -2,6 +2,7 @@
 #define gol_h
 
 #include <stdbool.h>
+#include <stdint.h>
 
 #define FPS 10.0
 #define N 25
@@ -14,20 +15,17 @@
 #define IN_BOUNDS(n) ((n)>=N?0:((n)<0?N-1:(n)))
 #define CELL_BOUNDS(x,y) (Rectangle){(x),(y),CELL_SIZE,CELL_SIZE}
 
-bool buff1[N][N], buff2[N][N];
-bool (*next)[N][N] = &buff1, (*cur)[N][N] = &buff2;
+extern bool buff1[N][N], buff2[N][N];
+extern bool (*next)[N][N], (*cur)[N][N];
+
+bool eval_cell(int cx, int cy);
+void eval_state(void);
+void simulate(void);
 
 void draw_field(void);
 void draw_grid(void);
 void draw_pause(void);
 
-double last_simulation_time = 0;
-
-bool eval_cell(int cx, int cy);
-void eval_state(void);
-
-void (*loop)(void);
-void simulate(void);
 void edit_field(void);
 
 #endif /* gol_h */
