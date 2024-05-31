@@ -1,4 +1,4 @@
-all: build clean
+all: build
 
 CFLAGS := *.c -o ../main.out -lm -L../lib ../lib/libraylib.a -I../lib/
 this_OS := $(shell sh -c 'uname 2>/dev/null || echo Unknown OS')
