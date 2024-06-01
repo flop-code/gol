@@ -15,7 +15,6 @@
 #define IN_BOUNDS(n) ((n)>=N?0:((n)<0?N-1:(n)))
 #define CELL_BOUNDS(x,y) (Rectangle){(x),(y),CELL_SIZE,CELL_SIZE}
 
-extern bool buff1[N][N], buff2[N][N];
 extern bool (*next)[N][N], (*cur)[N][N];
 
 bool eval_cell(int cx, int cy);
