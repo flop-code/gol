@@ -1,32 +1,52 @@
 all: build
 
-CFLAGS := *.c -o ../main.out -lm -L../lib ../lib/libraylib.a -I../lib/
+CFLAGS := *.c -lm -L../lib ../lib/libraylib.a -I../lib/ -Os
 this_OS := $(shell sh -c 'uname 2>/dev/null || echo Unknown OS')
+target ?= $(this_OS)
 
-ifeq ($(this_OS),Linux)
-    CFLAGS += -lGL -lm -lpthread -ldl -lrt
-	CFLAGS += -lX11
+ifeq ($(target),Linux)
+    CFLAGS += -lraylib -lGL -lm -lpthread -ldl -lrt -o ../gol
 endif
-ifeq ($(this_OS),Darwin)
-    CFLAGS += -framework CoreVideo -framework IOKit -framework Cocoa -framework OpenGL
+ifeq ($(target),Darwin)
+    CFLAGS += -lraylib -framework CoreVideo -framework IOKit -framework Cocoa -framework OpenGL -o ../gol
 endif
-ifeq ($(this_OS),BSD)
-    CFLAGS += -lGL -lpthread -lm
-	CFLAGS += -lX11 -lXrandr -lXinerama -lXi -lXxf86vm -lXcursor
+ifeq ($(target),Windows_NT)
+	CFLAGS += -lraylib -lopengl32 -lgdi32 -lwinmm -mwindows -o ../gol.exe
 endif
 
-download_raylib:
-	git clone --depth 1 -b master --filter=blob:none https://github.com/raysan5/raylib --sparse
-	(cd raylib && git sparse-checkout init --cone && git sparse-checkout set src)
+ifeq ($(target),Windows_NT)
+	compiler := x86_64-w64-mingw32-gcc
+else
+	compiler := gcc
+endif
 
-build_raylib: download_raylib
-	(cd raylib/src && make)
+fetch_raylib:
+ifeq ($(target),Linux)
+	wget -q https://github.com/raysan5/raylib/releases/download/5.0/raylib-5.0_linux_amd64.tar.gz
+	tar -xf ./raylib-5.0_linux_amd64.tar.gz
+	mv ./raylib-5.0_linux_amd64 ./raylib
+	rm ./raylib-5.0_linux_amd64.tar.gz
+endif
+ifeq ($(target),Darwin)
+	wget -q https://github.com/raysan5/raylib/releases/download/5.0/raylib-5.0_macos.tar.gz
+	tar -xf ./raylib-5.0_macos.tar.gz
+	mv ./raylib-5.0_macos ./raylib
+	rm ./raylib-5.0_macos.tar.gz
+endif
+ifeq ($(target),Windows_NT)
+	wget -q https://github.com/raysan5/raylib/releases/download/5.0/raylib-5.0_win64_mingw-w64.zip
+	unzip -qq raylib-5.0_win64_mingw-w64.zip
+	mv ./raylib-5.0_win64_mingw-w64 ./raylib
+	rm ./raylib-5.0_win64_mingw-w64.zip
+endif
 
-	mkdir -p lib
-	(cd raylib/src && mv libraylib.a ../../lib/)
-	(cd raylib/src && mv raylib.h ../../lib/)
+	mv ./raylib/lib/libraylib.a ./lib/
+	mv ./raylib/include/raylib.h ./lib/
+	rm -rf ./raylib
 
-	[ ! -e raylib ] || rm -rf raylib
+build:
+	([ ! -e ./lib/libraylib.a ] || [ ! -e ./lib/raylib.h ]) && $(MAKE) fetch_raylib || :
+	(cd src && $(compiler) $(CFLAGS))
 
-build: src
-	(cd src && gcc $(CFLAGS))
+clean:
+	([ -f lib/libraylib.a ] || [ -f lib/raylib.h ]) && rm ./lib/* || :

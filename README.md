@@ -9,49 +9,47 @@ This is a C implementation of Conway's Game Of Live, that uses Raylib for graphi
 
 ## Build & Run
 Dependencies (should be in *PATH*):
-- git
-- gcc
+- make
+- wget
+- gcc (*Linux / MacOS*) or mingw64 (*Windows*)
+- tar (*Linux / MacOS*) or unzip (*Windows*)
 
-### Linux / BSD / MacOS
-First of all, clone the project and cd into it.
+### Linux / MacOS
+Building is very simple and automized. First of all clone the project and cd into it.
 
-For the first-time build, you will need to fetch and build Raylib.
-The build system can do it automatically, you just need to run the following command:
-
-```sh
-make build_raylib
-```
-
-It uses Git to clone a specific part of the Raylib repo and then compiles it using GCC.
-
-As a result, you will have 2 generated files inside of the `lib` directory, which then will be used to build the project.
-
-To build the project, run the following command:
-
+Now run the following command:
 ```sh
 make
 ```
 
-As a result of this step, you will have the `main.out` file generated, which you can run to start the game.
+For the first-time build it downloads Raylib's binary files (it automatically detects OS) using `wget`.
+
+As a result, you will have the `gol` (*Linux / MacOS*) or `gol.exe` (*Windows*) output file generated, which you can run to start the game.
 
 ### Windows
-There is no support for Windows in the current version of the build system.
+Because of the use of Unix-specific terminal commands inside of the build system, there is no support for natively building for Windows in the current version.
 
-**Consider using WSL or Cygwin to emulate the Linux environment.**
+**Consider using WSL or Cygwin**
 
-But if you still want to build it natively, follow the steps below:
+However, if you have MinGW64 installed, you can cross-compile the project for Windows.
 
-You still can run the `download_raylib` target to fetch Raylib sources:
+To do it, first of all clear currently installed Raylib binaries:
 
 ```sh
-make download_raylib
+make clean
 ```
 
-This command will fetch the sources and place them into the `raylib/src` directory.
+And then run the `make` with `target` argument setted to `Windows_NT`:
 
-Then you need to build the Raylib, and place the `raylib.h` header and `libraylib.lib` files inside of the `lib` directory.
+```sh
+make target=Windows_NT
+```
 
-Then compile the project (also including `lib/raylib.h` header and link it with `opengl32`, `gdi32`, `winmm`, and `lib/libraylib.lib` itself).
+By default, it will use `x86_64-w64-mingw32-gcc` compiler to do this, but you can change it by providing `compiler` argument:
+
+```sh
+make target=Windows_NT compiler=mingw64-gcc
+```
 
 ## Usage
 The game is started in the edit mode, in which you can place or erase the cells out of the game field.
@@ -60,12 +58,16 @@ Hover and click on the left mouse button to draw a new cell, or click on the rig
 
 Press the space bar to switch between edit and simulation mode.
 
+While being in the edit mode, press on `H` key get a list of the hotkeys.
+
 Have fun!
 
 ## Milestones
 - [x] **v1.0**
-- [ ] Add the releases.
-- [x] Add the clear button.
-- [ ] Add the speed change button.
-- [ ] Make the window resizable and adaptive.
+- [x] Improve the build system
+- [ ] Add the releases
+- [x] Add the "Help" window
+- [x] Add the clear button
+- [ ] Add the speed chang button
+- [ ] Make the window resizable and adaptive
 - [ ] **v1.1**
