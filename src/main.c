@@ -10,13 +10,8 @@ int main(void) {
 
     while (!WindowShouldClose()) {
         BeginDrawing();
-
         ClearBackground(BLACK);
-
         (*loop)();
-        if (IsKeyPressed(KEY_SPACE))
-            loop = (loop == &simulate ? &edit_field : &simulate);
-
         EndDrawing();
     }
 

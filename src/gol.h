@@ -25,7 +25,14 @@ void simulate(void);
 void draw_field(void);
 void draw_grid(void);
 void draw_pause(void);
+void draw_help_alert(void);
+void draw_darker(void);
+void draw_help(void);
 
 void edit_field(void);
+
+void help(void);
+
+extern void (*loop)(void);
 
 #endif /* gol_h */

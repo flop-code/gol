@@ -30,5 +30,8 @@ void simulate(void) {
         last_simulation_time = GetTime();
     }
     
+    if (IsKeyPressed(KEY_SPACE))
+            loop = (loop == &simulate ? &edit_field : &simulate);
+
     draw_field();
 }

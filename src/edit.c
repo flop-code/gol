@@ -2,6 +2,9 @@
 #include <raylib.h>
 
 void edit_field(void) {
+    if (IsKeyPressed(KEY_SPACE))
+        loop = (loop == &simulate ? &edit_field : &simulate);
+
     draw_field();
     draw_grid();
 
@@ -15,14 +18,21 @@ void edit_field(void) {
 
                 DrawRectangleRounded(CELL_BOUNDS(cell_x * CELL_SIZE, cell_y * CELL_SIZE), 0.2, 0, color);
                 
-                if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+                if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
                     (*cur)[cell_x][cell_y] = true;
-                } else if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON)) {
+                else if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON))
                     (*cur)[cell_x][cell_y] = false;
-                }
             }
         }
+
+        if (IsKeyPressed(KEY_C))
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
+                    (*cur)[i][j] = false;
+        else if (IsKeyPressed(KEY_H))
+            loop = &help;
     }
 
     draw_pause();
+    draw_help_alert();
 }
