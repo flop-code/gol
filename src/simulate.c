@@ -1,7 +1,7 @@
 #include "gol.h"
 #include <raylib.h>
 
-bool buff1[N][N], buff2[N][N];
+static bool buff1[N][N], buff2[N][N];
 bool (*next)[N][N] = &buff1, (*cur)[N][N] = &buff2;
 
 double last_simulation_time = 0;

@@ -9,7 +9,7 @@ void draw_field(void) {
 }
 
 void draw_grid(void) {
-    Color color = ColorAlpha(RAYWHITE, 0.15);
+    const Color color = ColorAlpha(RAYWHITE, 0.15);
 
     for (int i = 0; i < N; i++) {
         DrawRectangle(0, i * CELL_SIZE - 2, WINDOW_SIZE, 4, color);
@@ -18,19 +18,19 @@ void draw_grid(void) {
 }
 
 void draw_pause(void) {
-    int width = WINDOW_SIZE/16, height = WINDOW_SIZE/13;
-    int x = WINDOW_SIZE/2 - width/2, y = WINDOW_SIZE*4/5 - height/2;
-    float roundness = 0.6;
-    Color color = ColorAlpha(RAYWHITE, 0.6);
+    static const int WIDTH = WINDOW_SIZE/16, HEIGHT = WINDOW_SIZE/13;
+    static const int X = WINDOW_SIZE/2 - WIDTH/2, Y = WINDOW_SIZE*4/5 - HEIGHT/2;
+    static const float ROUNDNESS = 0.6;
+    const Color color = ColorAlpha(RAYWHITE, 0.6);
 
-    DrawRectangleRounded((Rectangle){x, y, width/3, height}, roundness, 0, color);
-    DrawRectangleRounded((Rectangle){x + width * 2/3, y, width/3, height}, roundness, 0, color);
+    DrawRectangleRounded((Rectangle){X, Y, WIDTH/3, HEIGHT}, ROUNDNESS, 0, color);
+    DrawRectangleRounded((Rectangle){X + WIDTH * 2/3, Y, WIDTH/3, HEIGHT}, ROUNDNESS, 0, color);
 }
 
 void draw_help_alert(void) {
-    char msg[] = "[h] - Help";
-    int font_size = WINDOW_SIZE / 47;
-    int msg_width = MeasureText(msg, font_size);
+    static const char *msg = "[h] - Help";
+    static const int font_size = WINDOW_SIZE / 47;
+    const int msg_width = MeasureText(msg, font_size);
     
     DrawText(msg, WINDOW_SIZE - msg_width - font_size, WINDOW_SIZE - font_size*1.5, font_size, ColorAlpha(RAYWHITE, 0.3));
 }
@@ -40,7 +40,7 @@ void draw_darker(void) {
 }
 
 void draw_help(void) {
-    const char *MSGS[] = {
+    static const char *MSGS[] = {
         "Hotkeys",
 
         "[c] - Clear the field",
