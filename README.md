@@ -65,7 +65,7 @@ Have fun!
 ## Milestones
 - [x] **v1.0**
 - [ ] Add the releases.
-- [ ] Add the clear button.
+- [x] Add the clear button.
 - [ ] Add the speed change button.
 - [ ] Make the window resizable and adaptive.
 - [ ] **v1.1**
