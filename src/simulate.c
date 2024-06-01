@@ -31,7 +31,7 @@ void simulate(void) {
     }
     
     if (IsKeyPressed(KEY_SPACE))
-            loop = (loop == &simulate ? &edit_field : &simulate);
+            loop = &edit_field;
 
     draw_field();
 }

@@ -3,7 +3,7 @@
 
 void edit_field(void) {
     if (IsKeyPressed(KEY_SPACE))
-        loop = (loop == &simulate ? &edit_field : &simulate);
+        loop = &simulate;
 
     draw_field();
     draw_grid();
