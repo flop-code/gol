@@ -65,9 +65,7 @@ Have fun!
 ## Milestones
 - [x] **v1.0**
 - [x] Improve the build system
-- [ ] Add the releases
 - [x] Add the "Help" window
 - [x] Add the clear button
-- [ ] Add the speed chang button
-- [ ] Make the window resizable and adaptive
+- [ ] Add the speed change button
 - [ ] **v1.1**
